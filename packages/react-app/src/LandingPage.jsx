@@ -1,37 +1,26 @@
 import { useState } from "react";
 import Icon, { CaretRightOutlined } from "@ant-design/icons";
 import styled from "styled-components";
-import LogoImage from "./assets/logo.png";
 import { CopyBlock } from "react-code-blocks";
 import { Input } from "antd";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const Container = styled.div`
-  width: 600px;
-  margin: auto;
-
-  @media (max-width: 630px) {
-    padding: 0 15px;
-    width: 100%;
-  }
+  width: 900px;
+  margin: 0 auto;
 `;
-const Logo = styled.div`
+const Header = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin: 50px 0;
+  justify-content: space-between;
+  padding: 25px 0;
+`;
+const Logo = styled.h2`
   cursor: pointer;
-
-  & img {
-    height: 70px;
-    display: block;
-    margin-right: 15px;
-  }
-  & h1 {
-    display: block;
-    color: rgb(25, 33, 57);
-    font-size: 3rem;
-    margin: 0;
-  }
+  display: block;
+  color: rgb(25, 33, 57);
+  font-weight: 600;
+  margin: 0;
 `;
 const Panel = styled.div`
   border-radius: 7px;
@@ -63,14 +52,6 @@ const Panel = styled.div`
     border-radius: 3px;
   }
 `;
-const Try = styled.h2`
-  padding-top: 50px;
-  padding-bottom: 25px;
-  display: block;
-  text-align: center;
-  margin: 0;
-  font-size: 1.6rem;
-`;
 const Footer = styled.div`
   margin-top: 30px;
   padding-bottom: 50px;
@@ -96,12 +77,12 @@ const LandingPage = () => {
 
   return (
     <Container>
-      <Logo>
-        <img src={LogoImage} />
-        <h1>
-          <b>ETH</b>Talk
-        </h1>
-      </Logo>
+      <Header>
+        <Logo>BuildQuest</Logo>
+        <div>
+          <ConnectButton />
+        </div>
+      </Header>
       <Panel>
         <h2>About ETHTalk</h2>
         <div>
@@ -150,14 +131,6 @@ const LandingPage = () => {
           </div>
         </div>
       </Panel>
-
-      <Try>👇 Try it yourself!</Try>
-
-      <div
-        dangerouslySetInnerHTML={{
-          __html: `<iframe src="${process.env.REACT_APP_DOMAIN_NAME}/embed?url=${process.env.REACT_APP_DOMAIN_NAME}" id="ethtalk" width="100%" frameBorder="0"></iframe>`,
-        }}
-      />
 
       <Footer>
         Crafted with <Icon component={HeartSvg} style={{ color: "hotpink" }} /> by{" "}
