@@ -1,8 +1,6 @@
 import { useState } from "react";
 import Icon, { CaretRightOutlined } from "@ant-design/icons";
 import styled from "styled-components";
-import { CopyBlock } from "react-code-blocks";
-import { Input } from "antd";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const Container = styled.div`
@@ -22,41 +20,44 @@ const Logo = styled.h2`
   font-weight: 600;
   margin: 0;
 `;
-const Panel = styled.div`
-  border-radius: 7px;
-  border: 1px solid #ddd;
-  margin-top: 25px;
+const ContentContainer = styled.div`
+  display: grid;
+  margin: 30px 0;
+  grid-template-columns: 300px 1fr;
+  grid-gap: 30px;
+`;
+const Introduction = styled.div`
+  background: rgb(26, 27, 31);
+  background: linear-gradient(146deg, rgba(26, 27, 31, 1) 56%, rgba(106, 39, 35, 1) 90%, rgba(105, 62, 25, 1) 100%);
+  border-radius: 10px;
+  padding: 16px;
 
   & h2 {
+    color: white;
+    font-weight: bolder;
+  }
+  & p {
+    color: #ccc;
+  }
+  & a {
+    background: white;
+    padding: 8px;
+    text-align: center;
+    color: black;
     display: block;
-    background: #f3f3f3;
-    margin: 0;
-    padding: 7px 15px;
-    font-size: 1.2rem;
-    border-bottom: 1px solid #ddd;
-  }
-
-  & > div {
-    padding: 15px;
-  }
-
-  & h3 {
-    font-size: 1rem;
-    margin: 0;
-    margin-bottom: 7px;
-  }
-
-  & pre {
-    display: inline;
-    background: #ddd;
-    border-radius: 3px;
+    margin-top: 24px;
+    border-radius: 8px;
+    transition: 0.2s;
+    font-weight: 600;
+    &:hover {
+      transform: scale(1.03);
+      color: black;
+    }
   }
 `;
-const Footer = styled.div`
-  margin-top: 30px;
-  padding-bottom: 50px;
+const Credit = styled.div`
+  margin-top: 16px;
   text-align: center;
-
   & a {
     font-weight: bold;
   }
@@ -68,13 +69,6 @@ const HeartSvg = () => (
 );
 
 const LandingPage = () => {
-  const [value, setValue] = useState(`${process.env.REACT_APP_DOMAIN_NAME}`);
-
-  const codeSnippet = `<iframe src="${process.env.REACT_APP_DOMAIN_NAME}/embed?url=${value}" id="ethtalk" width="100%" frameBorder="0"></iframe>
-
-<script>window.addEventListener("message",function(t){"string"==typeof t.data&&-1!=t.data.indexOf("height:")&&(document.getElementById("ethtalk").style.height=t.data.split(":")[1]+"px")});</script>
-`;
-
   return (
     <Container>
       <Header>
@@ -83,61 +77,29 @@ const LandingPage = () => {
           <ConnectButton />
         </div>
       </Header>
-      <Panel>
-        <h2>About ETHTalk</h2>
+
+      <ContentContainer>
         <div>
-          <p>
-            EthTalk is a comments widget implemented and designed for the Ethereum ecosystem built on top of 🏗
-            Scaffold-ETH, lets visitors leave comments on your website with their non-custodial Ethereum account
-          </p>
-          <p>
-            <a href="https://github.com/chunza2542/ethtalk.app#why-ethtalk" target="_blank">
-              <CaretRightOutlined /> Why I created ETHTalk?
+          <Introduction>
+            <h2>Hello There 🙋🏻‍♂️</h2>
+            <p>
+              <b>BuildQuest</b> is a grants and bounties platform for builders.
+            </p>
+            <p>
+              In this version, we've built a bounty disbursement tool that automatically pays out when your PR gets
+              merged.
+            </p>
+            <a>Follow us @buildquestxyz</a>
+          </Introduction>
+          <Credit>
+            Crafted with <Icon component={HeartSvg} style={{ color: "hotpink" }} /> by{" "}
+            <a target="_blank" href="https://twitter.com/chunza2542">
+              @chunza2542
             </a>
-          </p>
-          <p>
-            <b>Features:</b>
-            <li>
-              Open source 🌍 (See{" "}
-              <a target="_blank" href="https://github.com/chunza2542/ethtalk.app#contribution">
-                contribution guide
-              </a>
-              )
-            </li>
-            <li>ENS (Ethereum Name Service) supported 😎</li>
-            <li>
-              Sign-in with your non-custodial Ethereum accounts (No Facebook, Google, or Twitter accounts needed 🙅‍♀️)
-            </li>
-            <li>🦊 MetaMask and 🔥 BurnerWallet supported</li>
-            <li>LaTex supported for commenting 🧮</li>
-            <li>All the data is stored on Firebase Firestore 💽</li>
-          </p>
-          <a href="https://github.com/chunza2542/ethtalk.app" target="_blank">
-            <CaretRightOutlined /> Learn more about ETHTalk
-          </a>
+          </Credit>
         </div>
-      </Panel>
-
-      <Panel>
-        <h2>Embed ETHTalk</h2>
-        <div>
-          Embed ETHTalk on your website is pretty simple, you can just copy the code snippet below, change the value in
-          the input to your website URL, and put it anywhere on your website.
-          <div style={{ marginTop: 15, marginBottom: 10 }}>
-            <Input value={value} onChange={e => setValue(e.target.value)} />
-          </div>
-          <div style={{ background: "rgb(250, 250, 250)", borderRadius: 7, overflow: "hidden" }}>
-            <CopyBlock theme="androidstudio" text={codeSnippet} language="html" showLineNumbers={10} wrapLines />
-          </div>
-        </div>
-      </Panel>
-
-      <Footer>
-        Crafted with <Icon component={HeartSvg} style={{ color: "hotpink" }} /> by{" "}
-        <a target="_blank" href="https://twitter.com/chunza2542">
-          @chunza2542
-        </a>
-      </Footer>
+        <div>asdasd</div>
+      </ContentContainer>
     </Container>
   );
 };

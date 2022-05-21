@@ -5,7 +5,6 @@ import { ProvideAuth } from "./hooks/UnstoppableAuth";
 import {
   apiProvider,
   configureChains,
-  darkTheme,
   getDefaultWallets,
   lightTheme,
   RainbowKitProvider,
