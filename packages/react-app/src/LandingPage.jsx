@@ -2,9 +2,10 @@ import { useState } from "react";
 import Icon, { CaretRightOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import BountyExplorer from "./BountyExplorer";
 
 const Container = styled.div`
-  width: 900px;
+  width: 1000px;
   margin: 0 auto;
 `;
 const Header = styled.div`
@@ -24,7 +25,7 @@ const ContentContainer = styled.div`
   display: grid;
   margin: 30px 0;
   grid-template-columns: 300px 1fr;
-  grid-gap: 30px;
+  grid-gap: 32px;
 `;
 const Introduction = styled.div`
   background: rgb(26, 27, 31);
@@ -98,7 +99,9 @@ const LandingPage = () => {
             </a>
           </Credit>
         </div>
-        <div>asdasd</div>
+        <div>
+          <BountyExplorer />
+        </div>
       </ContentContainer>
     </Container>
   );
