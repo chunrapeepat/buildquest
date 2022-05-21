@@ -1,4 +1,4 @@
-# 💬 ETHTalk
+# BuildQuest (PoC)
 ![ETHTalk Cover](https://bafybeicy5tjxjqsfc5tddiszrjsv6fijnsg377kyoqtlttmcfogxd2n4eq.ipfs.infura-ipfs.io/)
 EthTalk is a comments widget implemented and designed for the Ethereum ecosystem built on top of [🏗 Scaffold-ETH](https://github.com/austintgriffith/scaffold-eth), lets visitors leave comments on your website with their non-custodial Ethereum account
 
