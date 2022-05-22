@@ -18,10 +18,9 @@
  *
  */
 
-// const HDWalletProvider = require('@truffle/hdwallet-provider');
-//
-// const fs = require('fs');
-// const mnemonic = fs.readFileSync(".secret").toString().trim();
+const HDWalletProvider = require('@truffle/hdwallet-provider');
+const fs = require('fs');
+const privateKeys = [fs.readFileSync(".secret").toString().trim()];
 
 module.exports = {
   /**
@@ -35,6 +34,13 @@ module.exports = {
    */
 
   networks: {
+    bobaRinkebyTestnet: {
+      provider: () => new HDWalletProvider(privateKeys, `https://rinkeby.boba.network`),
+      network_id: 28,
+      confirmations: 2,
+      timeoutBlocks: 200,
+      skipDryRun: true   
+    },
     // Useful for testing. The `development` name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
     // You should run a client (like ganache, geth, or parity) in a separate terminal

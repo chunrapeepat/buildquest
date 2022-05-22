@@ -41,5 +41,7 @@
       "**/@graphprotocol/graph-ts/**"
     ]
   },
-  "dependencies": {}
+  "dependencies": {
+    "@truffle/hdwallet-provider": "^2.0.8"
+  }
 }
