@@ -103,6 +103,7 @@ const BountyPage = () => {
   const { id: bountyId } = useParams();
   const [info, setInfo] = useState(null);
   const [githubUser, setGithubUser] = useState(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const [prUrl, setPrUrl] = useState("");
   const [receiver, setReceiver] = useState("0x68fc885719aC82B744E859b7843A155C5bB4C1a5");
@@ -146,7 +147,7 @@ const BountyPage = () => {
       ...data,
       createdAt: new Date(),
     });
-    console.log("DONE");
+    setIsSubmitted(true);
   };
 
   return (
@@ -190,35 +191,40 @@ const BountyPage = () => {
               <InputBox>
                 <h3>Submissions (1)</h3>
               </InputBox>
-            </ContentContainer>
 
-            {!githubUser && (
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <Button onClick={connectWithGithub}>Connect with Github account to submit</Button>
-              </div>
-            )}
-            {githubUser && (
-              <InputBox>
-                <h3>Submit Your PR!</h3>
-                <p>Your PR must be in the same repo and created by you.</p>
-                <div>
-                  <label>PR Url:</label>
-                  <Input
-                    onChange={e => setPrUrl(e.target.value)}
-                    value={prUrl}
-                    type="text"
-                    placeholder="https://github.com/orgs/repo/issues/n"
-                  ></Input>
+              {!githubUser && (
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <Button onClick={connectWithGithub}>Connect with Github account to submit</Button>
                 </div>
-                <div>
-                  <label>Wallet Address:</label>
-                  <Input onChange={e => setReceiver(e.target.value)} value={receiver} type="text"></Input>
+              )}
+              {isSubmitted && (
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <h3>Submitted!</h3>
                 </div>
-                <Button onClick={handleSubmitPR} style={{ marginTop: 16 }}>
-                  Submit PR
-                </Button>
-              </InputBox>
-            )}
+              )}
+              {githubUser && !isSubmitted && (
+                <InputBox>
+                  <h3>Submit Your PR!</h3>
+                  <p>Your PR must be in the same repo and created by you.</p>
+                  <div>
+                    <label>PR Url:</label>
+                    <Input
+                      onChange={e => setPrUrl(e.target.value)}
+                      value={prUrl}
+                      type="text"
+                      placeholder="https://github.com/owner/repo/pull/n"
+                    ></Input>
+                  </div>
+                  <div style={{ marginTop: 10 }}>
+                    <label>Wallet Address:</label>
+                    <Input onChange={e => setReceiver(e.target.value)} value={receiver} type="text"></Input>
+                  </div>
+                  <Button onClick={handleSubmitPR} style={{ marginTop: 16 }}>
+                    Submit PR
+                  </Button>
+                </InputBox>
+              )}
+            </ContentContainer>
           </>
         )}
 
