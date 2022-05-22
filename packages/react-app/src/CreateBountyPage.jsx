@@ -4,11 +4,11 @@ import { doc, setDoc } from "firebase/firestore";
 import axios from "axios";
 import { useState } from "react";
 import styled from "styled-components";
-import { useContract, useProvider, useSigner } from "wagmi";
+import { useAccount, useContract, useProvider, useSigner } from "wagmi";
 import { BUILDQUEST_CONTRACT_ABI } from "./constants";
 import Navbar from "./Navbar";
 import { firestore } from "./utils/firebase";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 const Container = styled.div`
   width: 650px;
@@ -151,6 +151,8 @@ const CreateBountyPage = () => {
   const [desc, setDesc] = useState("");
   const [amount, setAmount] = useState(0.1);
   const [expiredAt, setExpiredAt] = useState(null);
+  const [r, setR] = useState(false);
+  const { data: dataAccount } = useAccount();
   const { data: signer, isError, isLoading } = useSigner();
   const contract = useContract({
     addressOrName: "0x0946281477a789fc199C4008FF082e4CC573fbA6",
@@ -192,92 +194,103 @@ const CreateBountyPage = () => {
       ...data,
       createdAt: new Date(),
     });
+
+    setR(true);
   };
+
+  if (r) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <>
       <Navbar />
       <Container>
         <Link to="/">
-          <ArrowLeftOutlined/> Back to homepage
+          <ArrowLeftOutlined /> Back to homepage
         </Link>
-        <ContentContainer>
-          <div>
-            <h2>
-              <b>Create New Bounty</b>
-            </h2>
-            <p>Fund your Github issue and work with talented developers!</p>
-          </div>
-          <InputBox>
-            <h3>
-              <b>1. Bounty Chain</b>
-            </h3>
-            <p>Pick the chain you are funding bounty with</p>
-            <Chains>
-              <Chain active={true}>
-                <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/14556.png"></img>
-                <h3>Boba Testnet</h3>
-              </Chain>
-            </Chains>
-          </InputBox>
-          <InputBox>
-            <h3>
-              <b>2. Github Issue URL</b>
-            </h3>
-            <Input
-              onChange={e => setIssueURL(e.target.value)}
-              value={issueURL}
-              type="text"
-              placeholder="https://github.com/orgs/repo/issues/n"
-            ></Input>
-          </InputBox>
-          <InputBox>
-            <h3>
-              <b>3. Short Description</b>
-            </h3>
-            <p>Write a short description that explains this bounty within 280 characters.</p>
-            <TextArea
-              onChange={e => setDesc(e.target.value)}
-              value={desc}
-              maxLength={280}
-              rows={4}
-              placeholder="Description..."
-            ></TextArea>
-          </InputBox>
-          <InputBox>
-            <h3>
-              <b>4. Setting</b>
-            </h3>
-            <div style={{ marginBottom: 10 }}>
-              <label>ETH Amount:</label>
-              <Input
-                onChange={e => setAmount(e.target.value)}
-                value={amount}
-                type="number"
-                placeholder="Amount"
-              ></Input>
-            </div>
-            <div>
-              <label>Expire date and time:</label>
-              <Input onChange={e => setExpiredAt(e.target.value)} value={expiredAt} type="datetime-local"></Input>
-            </div>
-          </InputBox>
-          <InputBox>
-            <h3>
-              <b>5. Funding Summary</b>
-            </h3>
-            <Summary>
+        {!dataAccount && <h3 style={{ marginTop: 10 }}>Please connect wallet to create bounty</h3>}
+        {dataAccount && (
+          <>
+            <ContentContainer>
               <div>
-                <h2>TOTAL</h2>
+                <h2>
+                  <b>Create New Bounty</b>
+                </h2>
+                <p>Fund your Github issue and work with talented developers!</p>
               </div>
-              <div>
-                <h1>{amount} ETH</h1>
-                <p>Bounty {amount} ETH + 0$ BuildQuest Platform Fee</p>
-              </div>
-            </Summary>
-          </InputBox>
-        </ContentContainer>
-        <Button onClick={handleSubmit}>Fund & Create Bounty</Button>
+              <InputBox>
+                <h3>
+                  <b>1. Bounty Chain</b>
+                </h3>
+                <p>Pick the chain you are funding bounty with</p>
+                <Chains>
+                  <Chain active={true}>
+                    <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/14556.png"></img>
+                    <h3>Boba Testnet</h3>
+                  </Chain>
+                </Chains>
+              </InputBox>
+              <InputBox>
+                <h3>
+                  <b>2. Github Issue URL</b>
+                </h3>
+                <Input
+                  onChange={e => setIssueURL(e.target.value)}
+                  value={issueURL}
+                  type="text"
+                  placeholder="https://github.com/orgs/repo/issues/n"
+                ></Input>
+              </InputBox>
+              <InputBox>
+                <h3>
+                  <b>3. Short Description</b>
+                </h3>
+                <p>Write a short description that explains this bounty within 280 characters.</p>
+                <TextArea
+                  onChange={e => setDesc(e.target.value)}
+                  value={desc}
+                  maxLength={280}
+                  rows={4}
+                  placeholder="Description..."
+                ></TextArea>
+              </InputBox>
+              <InputBox>
+                <h3>
+                  <b>4. Setting</b>
+                </h3>
+                <div style={{ marginBottom: 10 }}>
+                  <label>ETH Amount:</label>
+                  <Input
+                    onChange={e => setAmount(e.target.value)}
+                    value={amount}
+                    type="number"
+                    placeholder="Amount"
+                  ></Input>
+                </div>
+                <div>
+                  <label>Expire date and time:</label>
+                  <Input onChange={e => setExpiredAt(e.target.value)} value={expiredAt} type="datetime-local"></Input>
+                </div>
+              </InputBox>
+              <InputBox>
+                <h3>
+                  <b>5. Funding Summary</b>
+                </h3>
+                <Summary>
+                  <div>
+                    <h2>TOTAL</h2>
+                  </div>
+                  <div>
+                    <h1>{amount} ETH</h1>
+                    <p>Bounty {amount} ETH + 0$ BuildQuest Platform Fee</p>
+                  </div>
+                </Summary>
+              </InputBox>
+            </ContentContainer>
+            <Button onClick={handleSubmit}>Fund & Create Bounty</Button>
+          </>
+        )}
 
         <br />
         <br />
