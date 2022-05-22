@@ -12,6 +12,7 @@ import {
 import { chain, createClient, WagmiProvider } from "wagmi";
 import CreateBountyPage from "./CreateBountyPage";
 import { NETWORKS } from "./constants";
+import BountyPage from "./BountyPage";
 
 const { chains, provider } = configureChains(
   [NETWORKS.BOBA_TESTNET, chain.mainnet],
@@ -48,12 +49,9 @@ const Router = () => {
               <Route path="/create">
                 <CreateBountyPage />
               </Route>
-              <Route path="/embed">
-                <ProvideAuth>
-                  <EmbedPage />
-                </ProvideAuth>
+              <Route path="/bounty/:id">
+                <BountyPage />
               </Route>
-              <Route path="/callback" element={<NavLink replace to="/" />} />
             </Switch>
           </BrowserRouter>
         </RainbowKitProvider>
