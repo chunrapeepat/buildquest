@@ -2,7 +2,7 @@
 > L2 Rollation Hackathon Submission: Boba Network Bounty 
 
 ![BuildQuest](https://i.ibb.co/xS2SFrt/Clean-Shot-2565-05-23-at-03-45-29-2x.png)
-BuildQuest is a grants and bounties platform for Web3 builders. In this alpha version, we've built a bounty disbursement automation tool that automatically pays out when the contributor's PR gets merged.
+BuildQuest is a grants and bounties platform for Web3 builders. In this alpha version, we've built a bounty disbursement automation tool that automatically pays out when the contributor's pull request gets merged.
 
 > Try it yourself: https://buildquest.xyz, Follow Our Twitter: [@buildquestxyz](https://twitter.com/buildquestxyz)
 
@@ -12,7 +12,7 @@ I started this project with a personal belief that "developers will product 10x 
 ### Roadmap & Future Development
 ## Technology
 ### How it works?
-
+![How it works](https://i.ibb.co/LnfxHn5/Clean-Shot-2565-05-23-at-04-19-53-2x.png)
 ### Setting up project
 1. Clone this repository
 ```sh
@@ -39,7 +39,7 @@ yarn react-app:start
 - Blockchain: Truffle, Solidity
 
 ### What I learn from this hackathon 
-This is my first time writing a smart contract in Solidity and using Truffle for deployment.
+This is my first time writing a smart contract in Solidity and using Truffle for deployment. I started this project 2 days before the submission deadline so it is quite challenging here but It's really enjoyable to learn.
 
 ---
 
