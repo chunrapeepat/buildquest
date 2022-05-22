@@ -8,12 +8,25 @@ export const ETHERSCAN_KEY = "PSW8C433Q667DVEX5BCRMGNAH9FSGFZ7Q8";
 export const BLOCKNATIVE_DAPPID = "0b58206a-f3c0-4701-a62f-73c7243e8c77";
 
 export const NETWORKS = {
-  localhost: {
-    name: "localhost",
-    color: "#666666",
-    chainId: 31337,
-    blockExplorer: "",
-    rpcUrl: "http://" + window.location.hostname + ":8545",
+  BOBA_TESTNET: {
+    id: 28,
+    name: "Boba Testnet",
+    nativeCurrency: {
+      name: "BOBA",
+      symbol: "BOBA",
+      decimals: 18,
+    },
+    rpcUrls: {
+      default: "https://rinkeby.boba.network",
+    },
+    blockExplorers: {
+      default: {
+        name: "Boba Block Explorer",
+        url: "https://blockexplorer.rinkeby.boba.network",
+      },
+    },
+    iconUrl: "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_boba.jpg&w=64&q=75",
+    testnet: true,
   },
   mainnet: {
     name: "mainnet",

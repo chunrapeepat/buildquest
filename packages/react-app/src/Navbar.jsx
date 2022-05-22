@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 1000px;
@@ -23,7 +24,9 @@ const Navbar = () => {
   return (
     <Container>
       <Header>
-        <Logo>BuildQuest</Logo>
+        <Link to="/">
+          <Logo>BuildQuest</Logo>
+        </Link>
         <div>
           <ConnectButton />
         </div>

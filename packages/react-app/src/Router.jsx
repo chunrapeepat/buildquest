@@ -11,9 +11,11 @@ import {
 } from "@rainbow-me/rainbowkit";
 import { chain, createClient, WagmiProvider } from "wagmi";
 import CreateBountyPage from "./CreateBountyPage";
+import { NETWORKS } from "./constants";
 
+console.log("test", JSON.stringify(chain.mainnet, 2, 2));
 const { chains, provider } = configureChains(
-  [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum],
+  [NETWORKS.BOBA_TESTNET, chain.mainnet],
   [apiProvider.alchemy(process.env.ALCHEMY_ID), apiProvider.fallback()],
 );
 const { connectors } = getDefaultWallets({
