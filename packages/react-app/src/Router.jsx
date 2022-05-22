@@ -10,6 +10,7 @@ import {
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
 import { chain, createClient, WagmiProvider } from "wagmi";
+import CreateBountyPage from "./CreateBountyPage";
 
 const { chains, provider } = configureChains(
   [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum],
@@ -42,6 +43,9 @@ const Router = () => {
             <Switch>
               <Route exact path="/">
                 <LandingPage />
+              </Route>
+              <Route path="/create">
+                <CreateBountyPage />
               </Route>
               <Route path="/embed">
                 <ProvideAuth>
