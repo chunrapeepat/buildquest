@@ -11,17 +11,17 @@ I started this project with a personal belief that "developers will produce 10x 
 
 In the past years, we started to see this kind of work are getting more and more popular, we started to see developers shift to Web3, we started to see more full-time indie hackers and open-source contributors, and the numbers keep going.
 
-That's why we wanted to build & experiment around grants & bounties tooling that helps support this kind of builder to build and iterate ideas much more efficiently.
+That's why I wanted to build & experiment around grants & bounties tooling that helps support this kind of builder to build and iterate ideas much more efficiently.
 
-We also planned to ship more features soon (see the Roadmap section below), and we want to continue building this project until we reach the point that "our product can support builders to earn enough for a decent living by contributing to the project they love".
+I also planned to ship more features soon (see the Roadmap section below), and I want to continue building this project until we reach the point that "our product can support builders to earn enough for a decent living by contributing to the project they love".
 
 ### Roadmap & future development
 There are 2 aspects that we would like to focus on to achieve our mission.
 
-**1. Grant/Bounty as a service (GBaaS) for Web3 protocols** - We wanted to build tooling that helps Web3 protocols manage grants and bounties much more efficiently e.g. Analytics Tooling, Developer Management, Grant application management, Disbursement Tooling, etc...
+**1. Grant/Bounty as a service (GBaaS) for Web3 protocols** - Buliding tooling that helps Web3 protocols manage grants and bounties much more efficiently e.g. Analytics Tooling, Developer Management, Grant application management, Disbursement Tooling, etc...
   - How boba can help us reach our mission: provide support for developing an MVP, and collaborate and partner together to build the best grant and bounty tooling.
 
-**2. Community-based platform** - A place where builders share ideas, get inspired, and collaborate together. You can think of Linkedin for Web3 builders.
+**2. Community-based platform** - A place where builders share ideas, get inspired, and collaborate together (You can think of Linkedin for Web3 builders)
   - How boba can help us reach our mission: introduce our product to Boba ecosystem to bootstrap an initial network.
 
 ## Technology
