@@ -15,12 +15,14 @@ That's why we wanted to build & experiment around grants & bounties tooling that
 
 We also planned to ship more features soon (see the Roadmap section below), and we want to continue building this project until we reach the point that "our product can support builders to earn enough for a decent living by contributing to the project they love".
 
-### Roadmap & future development?
+### Roadmap & future development
 There are 2 aspects that we would like to focus on to achieve our mission.
 
 **1. Grant/Bounty as a service (GBaaS) for Web3 protocols** - We wanted to build tooling that helps Web3 protocols manage grants and bounties much more efficiently e.g. Analytics Tooling, Developer Management, Grant application management, Disbursement Tooling, etc...
+  - How boba can help us reach our mission: provide support for developing an MVP, and collaborate and partner together to build the best grant and bounty tooling.
 
 **2. Community-based platform** - A place where builders share ideas, get inspired, and collaborate together. You can think of Linkedin for Web3 builders.
+  - How boba can help us reach our mission: introduce our product to Boba ecosystem to bootstrap an initial network.
 
 ## Technology
 ### How it works?
