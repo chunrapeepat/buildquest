@@ -1,15 +1,14 @@
-import Icon from "@ant-design/icons";
-import { ethers } from "ethers";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useContract, useProvider, useSigner } from "wagmi";
-import { BUILDQUEST_CONTRACT_ABI } from "./constants";
 import Navbar from "./Navbar";
 import { auth, firestore, githubProvider } from "./utils/firebase";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { signInWithPopup } from "firebase/auth";
+import { ArrowLeftOutlined } from "@ant-design/icons";
+import ReactMarkdown from "react-markdown";
+import { Address } from "./components";
 
 const Container = styled.div`
   width: 650px;
@@ -56,80 +55,6 @@ const Input = styled.input`
     border: 1px solid #aaa;
   }
 `;
-const Chains = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 12px;
-`;
-const Chain = styled.div`
-  background: #fafafa;
-  transition: 0.2s;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  padding: 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-
-  ${props =>
-    props.active
-      ? `
-    border: 1px solid #446ceb; 
-    background: #f3f5f9;
-  `
-      : ""}
-
-  &:hover {
-    border: 1px solid #aaa;
-    ${props =>
-      props.active
-        ? `
-      border: 1px solid #446ceb; 
-    `
-        : ""}
-  }
-
-  & img {
-    width: 1.6rem;
-    height: 1.6rem;
-    border-radius: 50%;
-    margin-right: 10px;
-  }
-  & h3 {
-    margin: 0;
-    font-size: 1em;
-  }
-`;
-const Summary = styled.div`
-  background: #f3f3f3;
-  border-radius: 10px;
-  padding: 18px 12px;
-  display: flex;
-  align-items: center;
-  margin-top: 8px;
-
-  & > div:nth-child(1) {
-    margin: 0 12px;
-    margin-right: 24px;
-    & h2 {
-      margin: 0;
-    }
-  }
-  & > div:nth-child(2) {
-    & h3 {
-      margin: 0;
-    }
-    & h1 {
-      margin: 0;
-      font-size: 1.6rem;
-      font-weight: bold;
-    }
-    & p {
-      margin: 0;
-    }
-  }
-`;
 const Button = styled.button`
   color: white;
   background: #1a1b1f;
@@ -144,6 +69,33 @@ const Button = styled.button`
 
   &:hover {
     transform: scale(1.03);
+  }
+`;
+const Detail = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & p {
+    color: #555;
+  }
+
+  /* Bounty Footer */
+  & > div {
+    display: flex;
+    align-items: center;
+  }
+  & img {
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+  & > div:last-child {
+    color: white;
+    padding: 3px 7px;
+    font-weight: 600;
+    border-radius: 8px;
   }
 `;
 
@@ -196,51 +148,70 @@ const BountyPage = () => {
     console.log("DONE");
   };
 
-  if (info === null) {
-    return <h3>Loading...</h3>;
-  }
-
   return (
     <>
       <Navbar />
       <Container>
-        <ContentContainer>
-          <div>
-            <h2>
-              <b>{info.title}</b>
-            </h2>
-            <p>Fund your Github issue and work with talented developers!</p>
-          </div>
-          <InputBox>
-            <h3>{info.body}</h3>
-          </InputBox>
-          <InputBox>
-            <h3>Submissions (1)</h3>
-          </InputBox>
-        </ContentContainer>
+        <Link to="/">
+          <ArrowLeftOutlined /> Back to homepage
+        </Link>
+        {info === null && <h3 style={{ marginTop: 12 }}>Loading...</h3>}
+        {info !== null && (
+          <>
+            <ContentContainer>
+              <div>
+                <h2>
+                  <b>{info.title}</b>
+                </h2>
+                <Detail>
+                  <div>
+                    <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/14556.png" />
+                    Boba Testnet
+                  </div>
+                  <div>
+                    <Address address={info.createdBy} />
+                  </div>
+                  <div>End at {new Date(info.expiredAt).toLocaleString()}</div>
+                  <div>
+                    {info.amount} {info.deno}
+                  </div>
+                  {info.status === "Open" && <div style={{ background: "#3aab3e" }}>{info.status}</div>}
+                  {info.status === "Complete" && <div style={{ background: "#4839ab" }}>{info.status}</div>}
+                  {info.status === "Close" && <div style={{ background: "#fa423c" }}>{info.status}</div>}
+                </Detail>
+              </div>
+              <InputBox>
+                <ReactMarkdown>{info.body}</ReactMarkdown>
+              </InputBox>
+              <InputBox>
+                <h3>Submissions (1)</h3>
+              </InputBox>
+            </ContentContainer>
 
-        {!githubUser && <button onClick={connectWithGithub}>Connect with Github Account</button>}
-        {githubUser && (
-          <InputBox>
-            <h3>Submit Your PR!</h3>
-            <p>Your PR must be in the same repo and created by you.</p>
-            <div>
-              <label>PR Url:</label>
-              <Input
-                onChange={e => setPrUrl(e.target.value)}
-                value={prUrl}
-                type="text"
-                placeholder="https://github.com/orgs/repo/issues/n"
-              ></Input>
-            </div>
-            <div>
-              <label>Wallet Address:</label>
-              <Input onChange={e => setReceiver(e.target.value)} value={receiver} type="text"></Input>
-            </div>
-            <Button onClick={handleSubmitPR} style={{ marginTop: 16 }}>
-              Submit PR
-            </Button>
-          </InputBox>
+            {!githubUser && <button onClick={connectWithGithub}>Connect with Github Account</button>}
+            {githubUser && (
+              <InputBox>
+                <h3>Submit Your PR!</h3>
+                <p>Your PR must be in the same repo and created by you.</p>
+                <div>
+                  <label>PR Url:</label>
+                  <Input
+                    onChange={e => setPrUrl(e.target.value)}
+                    value={prUrl}
+                    type="text"
+                    placeholder="https://github.com/orgs/repo/issues/n"
+                  ></Input>
+                </div>
+                <div>
+                  <label>Wallet Address:</label>
+                  <Input onChange={e => setReceiver(e.target.value)} value={receiver} type="text"></Input>
+                </div>
+                <Button onClick={handleSubmitPR} style={{ marginTop: 16 }}>
+                  Submit PR
+                </Button>
+              </InputBox>
+            )}
+          </>
         )}
 
         <br />

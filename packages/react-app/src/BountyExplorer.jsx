@@ -117,15 +117,9 @@ const BountyExplorer = () => {
                   <div>
                     {bounty.amount} {bounty.deno}
                   </div>
-                  {bounty.status === 'Open' &&
-                    <div style={{background: '#3aab3e'}}>{bounty.status}</div>
-                  }
-                  {bounty.status === 'Complete' &&
-                    <div style={{background: '#4839ab'}}>{bounty.status}</div>
-                  }
-                  {bounty.status === 'Close' &&
-                    <div style={{background: '#fa423c'}}>{bounty.status}</div>
-                  }
+                  {bounty.status === "Open" && <div style={{ background: "#3aab3e" }}>{bounty.status}</div>}
+                  {bounty.status === "Complete" && <div style={{ background: "#4839ab" }}>{bounty.status}</div>}
+                  {bounty.status === "Close" && <div style={{ background: "#fa423c" }}>{bounty.status}</div>}
                 </div>
               </div>
             </Bounty>
