@@ -12,8 +12,8 @@ export const NETWORKS = {
     id: 28,
     name: "Boba Testnet",
     nativeCurrency: {
-      name: "BOBA",
-      symbol: "BOBA",
+      name: "ETH",
+      symbol: "ETH",
       decimals: 18,
     },
     rpcUrls: {

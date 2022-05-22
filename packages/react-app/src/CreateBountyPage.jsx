@@ -175,8 +175,8 @@ const CreateBountyPage = () => {
             </div>
             <div>
               <h3>PAYMENT DUE</h3>
-              <h1>5,000 BOBA</h1>
-              <p>Bounty 5,000 BOBA ($) + 0 ETH BuildQuest Platform Fee</p>
+              <h1>5,000 ETH</h1>
+              <p>Bounty 5,000 ETH ($) + 0 ETH BuildQuest Platform Fee</p>
             </div>
           </Summary>
         </ContentContainer>
