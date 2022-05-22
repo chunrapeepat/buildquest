@@ -165,6 +165,9 @@ const BountyPage = () => {
                   <b>{info.title}</b>
                 </h2>
                 <Detail>
+                  <a href={info.issueURL} target="_blank">
+                    <Button style={{ padding: "4px 8px" }}>Start Work</Button>
+                  </a>
                   <div>
                     <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/14556.png" />
                     Boba Testnet
