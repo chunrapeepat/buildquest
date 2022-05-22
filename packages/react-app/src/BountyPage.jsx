@@ -121,14 +121,15 @@ const BountyPage = () => {
     }
   }, []);
 
-  auth.onAuthStateChanged(user => {
-    if (user) {
-      setGithubUser(user);
-    }
-  });
+  // auth.onAuthStateChanged(user => {
+  //   if (user) {
+  //     setGithubUser(user);
+  //   }
+  // });
 
   const connectWithGithub = async () => {
-    await signInWithPopup(auth, githubProvider);
+    const result = await signInWithPopup(auth, githubProvider);
+    setGithubUser(result.user);
   };
 
   const handleSubmitPR = async () => {
@@ -188,7 +189,11 @@ const BountyPage = () => {
               </InputBox>
             </ContentContainer>
 
-            {!githubUser && <button onClick={connectWithGithub}>Connect with Github Account</button>}
+            {!githubUser && (
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Button onClick={connectWithGithub}>Connect with Github account to submit</Button>
+              </div>
+            )}
             {githubUser && (
               <InputBox>
                 <h3>Submit Your PR!</h3>
