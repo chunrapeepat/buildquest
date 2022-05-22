@@ -17,6 +17,21 @@ const InputBox = styled.div`
   border-radius: 10px;
   padding: 16px;
 `;
+const TextArea = styled.textarea`
+  width: 100%;
+  display: block;
+  outline: 0;
+  border: 0;
+  background: #fafafa;
+  border: 1px solid #eee;
+  padding: 8px;
+  border-radius: 8px;
+  transition: 0.2s;
+
+  &:hover {
+    border: 1px solid #aaa;
+  }
+`;
 const Input = styled.input`
   width: 100%;
   display: block;
@@ -80,14 +95,15 @@ const Chain = styled.div`
 const Summary = styled.div`
   background: #f3f3f3;
   border-radius: 10px;
-  padding: 24px 18px;
+  padding: 18px 12px;
   display: flex;
   align-items: center;
+  margin-top: 8px;
 
   & > div:nth-child(1) {
-    margin: 0 32px;
-    margin-right: 50px;
-    & h1 {
+    margin: 0 12px;
+    margin-right: 24px;
+    & h2 {
       margin: 0;
     }
   }
@@ -96,8 +112,8 @@ const Summary = styled.div`
       margin: 0;
     }
     & h1 {
-      margin: 8px 0;
-      font-size: 2rem;
+      margin: 0;
+      font-size: 1.6rem;
       font-weight: bold;
     }
     & p {
@@ -110,7 +126,7 @@ const Button = styled.button`
   background: #1a1b1f;
   border: 0;
   border-radius: 10px;
-  font-size: 1rem;
+  font-size: 1em;
   font-weight: 600;
   padding: 8px 16px;
   cursor: pointer;
@@ -144,10 +160,6 @@ const CreateBountyPage = () => {
                 <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/14556.png"></img>
                 <h3>Boba Testnet</h3>
               </Chain>
-              <Chain>
-                <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/14556.png"></img>
-                <h3>Polygon Mainnet</h3>
-              </Chain>
             </Chains>
           </InputBox>
           <InputBox>
@@ -158,7 +170,14 @@ const CreateBountyPage = () => {
           </InputBox>
           <InputBox>
             <h3>
-              <b>3. Setting</b>
+              <b>3. Short Description</b>
+            </h3>
+            <p>Write a short description that explains this bounty within 280 characters.</p>
+            <TextArea maxLength={280} rows={4} placeholder="Description..."></TextArea>
+          </InputBox>
+          <InputBox>
+            <h3>
+              <b>4. Setting</b>
             </h3>
             <div style={{ marginBottom: 10 }}>
               <label>BOBA$ Amount:</label>
@@ -169,16 +188,20 @@ const CreateBountyPage = () => {
               <Input type="datetime-local"></Input>
             </div>
           </InputBox>
-          <Summary>
-            <div>
-              <h1>TOTAL</h1>
-            </div>
-            <div>
-              <h3>PAYMENT DUE</h3>
-              <h1>5,000 ETH</h1>
-              <p>Bounty 5,000 ETH ($) + 0 ETH BuildQuest Platform Fee</p>
-            </div>
-          </Summary>
+          <InputBox>
+            <h3>
+              <b>5. Funding Summary</b>
+            </h3>
+            <Summary>
+              <div>
+                <h2>TOTAL</h2>
+              </div>
+              <div>
+                <h1>5,000 ETH</h1>
+                <p>Bounty 5,000 ETH (~10,000$) + 0$ BuildQuest Platform Fee</p>
+              </div>
+            </Summary>
+          </InputBox>
         </ContentContainer>
         <Button>Fund & Create Bounty</Button>
 
