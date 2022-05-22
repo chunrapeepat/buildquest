@@ -48,10 +48,3 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const functions = getFunctions(app);
 export const firestore = getFirestore(app);
-
-if (process.env.NODE_ENV === "development") {
-  connectFunctionsEmulator(functions, "localhost", 5001);
-  connectAuthEmulator(auth, "http://localhost:9099");
-  connectFirestoreEmulator(firestore, "localhost", 8080);
-  console.log("?");
-}

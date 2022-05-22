@@ -1,6 +1,13 @@
 import Icon from "@ant-design/icons";
+import { ethers } from "ethers";
+import { doc, setDoc } from "firebase/firestore";
+import axios from "axios";
+import { useState } from "react";
 import styled from "styled-components";
+import { useContract, useProvider, useSigner } from "wagmi";
+import { BUILDQUEST_CONTRACT_ABI } from "./constants";
 import Navbar from "./Navbar";
+import { firestore } from "./utils/firebase";
 
 const Container = styled.div`
   width: 650px;
@@ -139,6 +146,52 @@ const Button = styled.button`
 `;
 
 const CreateBountyPage = () => {
+  const [issueURL, setIssueURL] = useState("");
+  const [desc, setDesc] = useState("");
+  const [amount, setAmount] = useState(0);
+  const [expiredAt, setExpiredAt] = useState(null);
+  const provider = useProvider();
+  const { data: signer, isError, isLoading } = useSigner();
+  const contract = useContract({
+    addressOrName: "0x0946281477a789fc199C4008FF082e4CC573fbA6",
+    contractInterface: BUILDQUEST_CONTRACT_ABI,
+    signerOrProvider: signer,
+  });
+
+  const handleSubmit = async () => {
+    if (issueURL === "" || desc === "" || amount <= 0) return;
+    // create tx to create bounty
+    const options = { value: ethers.utils.parseEther(`${amount}`) };
+    const bountyId = Math.floor(Math.random() * 100000000);
+    const result = await contract.createBounty(bountyId, options);
+    // get issue title
+    const { data: issueData } = await axios.get(
+      `https://api.github.com/repos/${issueURL.replace("https://github.com/", "")}`,
+    );
+    const title = issueData.title;
+    const chain = "boba-testnet";
+    const deno = "ETH";
+    const createdBy = result.from;
+    const txHash = result.hash;
+    const data = {
+      bountyId,
+      chain,
+      issueURL,
+      title,
+      desc,
+      amount,
+      deno,
+      txHash,
+      expiredAt,
+      createdBy,
+    };
+    const bountyRef = doc(firestore, "bounties", `${bountyId}`);
+    await setDoc(bountyRef, {
+      ...data,
+      createdAt: new Date(),
+    });
+  };
+
   return (
     <>
       <Navbar />
@@ -166,26 +219,42 @@ const CreateBountyPage = () => {
             <h3>
               <b>2. Github Issue URL</b>
             </h3>
-            <Input type="text" placeholder="https://github.com/orgs/repo/issues/n"></Input>
+            <Input
+              onChange={e => setIssueURL(e.target.value)}
+              value={issueURL}
+              type="text"
+              placeholder="https://github.com/orgs/repo/issues/n"
+            ></Input>
           </InputBox>
           <InputBox>
             <h3>
               <b>3. Short Description</b>
             </h3>
             <p>Write a short description that explains this bounty within 280 characters.</p>
-            <TextArea maxLength={280} rows={4} placeholder="Description..."></TextArea>
+            <TextArea
+              onChange={e => setDesc(e.target.value)}
+              value={desc}
+              maxLength={280}
+              rows={4}
+              placeholder="Description..."
+            ></TextArea>
           </InputBox>
           <InputBox>
             <h3>
               <b>4. Setting</b>
             </h3>
             <div style={{ marginBottom: 10 }}>
-              <label>BOBA$ Amount:</label>
-              <Input type="number" placeholder="Amount"></Input>
+              <label>ETH Amount:</label>
+              <Input
+                onChange={e => setAmount(e.target.value)}
+                value={amount}
+                type="number"
+                placeholder="Amount"
+              ></Input>
             </div>
             <div>
               <label>Expire date and time:</label>
-              <Input type="datetime-local"></Input>
+              <Input onChange={e => setExpiredAt(e.target.value)} value={expiredAt} type="datetime-local"></Input>
             </div>
           </InputBox>
           <InputBox>
@@ -203,7 +272,7 @@ const CreateBountyPage = () => {
             </Summary>
           </InputBox>
         </ContentContainer>
-        <Button>Fund & Create Bounty</Button>
+        <Button onClick={handleSubmit}>Fund & Create Bounty</Button>
 
         <br />
         <br />

@@ -7,6 +7,107 @@ export const ETHERSCAN_KEY = "PSW8C433Q667DVEX5BCRMGNAH9FSGFZ7Q8";
 // BLOCKNATIVE ID FOR Notify.js:
 export const BLOCKNATIVE_DAPPID = "0b58206a-f3c0-4701-a62f-73c7243e8c77";
 
+export const BUILDQUEST_CONTRACT_ABI = [
+  { inputs: [], stateMutability: "nonpayable", type: "constructor" },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: false, internalType: "address", name: "owner", type: "address" },
+      { indexed: false, internalType: "uint256", name: "bountyId", type: "uint256" },
+      { indexed: false, internalType: "uint256", name: "amount", type: "uint256" },
+    ],
+    name: "Closed",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: false, internalType: "uint256", name: "bountyId", type: "uint256" },
+      { indexed: false, internalType: "address", name: "destAddr", type: "address" },
+      { indexed: false, internalType: "uint256", name: "amount", type: "uint256" },
+    ],
+    name: "Completed",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: false, internalType: "address", name: "owner", type: "address" },
+      { indexed: false, internalType: "uint256", name: "bountyId", type: "uint256" },
+      { indexed: false, internalType: "uint256", name: "amount", type: "uint256" },
+    ],
+    name: "Created",
+    type: "event",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "balances",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    name: "bounties",
+    outputs: [
+      { internalType: "address", name: "owner", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+      { internalType: "bool", name: "isActive", type: "bool" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "bountyId", type: "uint256" }],
+    name: "closeBounty",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "id", type: "uint256" }],
+    name: "createBounty",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "bountyId", type: "uint256" },
+      { internalType: "address", name: "destAddr", type: "address" },
+    ],
+    name: "disburse",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getBalance",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "bountyId", type: "uint256" }],
+    name: "getBounty",
+    outputs: [
+      { internalType: "address", name: "bountyOwner", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+      { internalType: "bool", name: "isActive", type: "bool" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+];
+
 export const NETWORKS = {
   BOBA_TESTNET: {
     id: 28,

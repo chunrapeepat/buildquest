@@ -4,7 +4,6 @@ pragma solidity >=0.4.22 <0.9.0;
 contract BuildQuestPOC {
   address public owner;
   mapping(address => uint) public balances;
-  uint bountyId = 1;
   // mapping bounty id to bounty struct
   struct bounty_struct {
     address owner;
@@ -24,10 +23,9 @@ contract BuildQuestPOC {
   }
 
   // create bounty function
-  function createBounty() public payable returns (uint) {
+  function createBounty(uint id) public payable returns (uint) {
     require(msg.value > 0, 'value must > 0');
 
-    uint id = bountyId++;
     balances[msg.sender] += msg.value;
     bounties[id] = bounty_struct(msg.sender, msg.value, true);
 
@@ -52,12 +50,12 @@ contract BuildQuestPOC {
   }
 
   // get total balances
-  function getBalance() public returns (uint) {
+  function getBalance() public view returns (uint) {
     return balances[msg.sender];
   }
 
   // get bounty info
-  function getBounty(uint bountyId) public returns (address owner, uint amount, bool isActive) {
+  function getBounty(uint bountyId) public view returns (address bountyOwner, uint amount, bool isActive) {
     return (bounties[bountyId].owner, bounties[bountyId].amount, bounties[bountyId].isActive);
   }
 
