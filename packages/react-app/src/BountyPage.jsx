@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { collection, doc, getDoc, onSnapshot, orderBy, query, setDoc, updateDoc } from "firebase/firestore";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -100,6 +100,13 @@ const Detail = styled.div`
     border-radius: 8px;
   }
 `;
+const Submission = styled.div`
+  background: #fafafa;
+  border: 1px solid #ccc;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 10px;
+`;
 
 const BountyPage = () => {
   const { id: bountyId } = useParams();
@@ -116,6 +123,17 @@ const BountyPage = () => {
 
   const [prUrl, setPrUrl] = useState("");
   const [receiver, setReceiver] = useState("0x68fc885719aC82B744E859b7843A155C5bB4C1a5");
+
+  const [submissions, setSubmissions] = useState([]);
+
+  useEffect(() => {
+    const ref = collection(firestore, "bounties", bountyId, "submissions");
+    const q = query(ref, orderBy("createdAt", "asc"));
+
+    onSnapshot(q, snapshot => {
+      setSubmissions(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    });
+  }, []);
 
   useEffect(async () => {
     const docRef = doc(firestore, "bounties", bountyId);
@@ -139,6 +157,9 @@ const BountyPage = () => {
 
   const connectWithGithub = async () => {
     const result = await signInWithPopup(auth, githubProvider);
+    if (submissions.map(x => x.githubUsername).indexOf(result.user.reloadUserInfo.screenName) !== -1) {
+      setIsSubmitted(true);
+    }
     setGithubUser(result.user);
   };
 
@@ -213,7 +234,17 @@ const BountyPage = () => {
                 )}
               </InputBox>
               <InputBox>
-                <h3>Submissions (1)</h3>
+                <h3>Submissions ({submissions.length})</h3>
+                {submissions.map(s => {
+                  return (
+                    <Submission>
+                      <a href={s.prUrl} target="_blank">
+                        {s.prUrl}
+                      </a>
+                      <div>By @{s.githubUsername}</div>
+                    </Submission>
+                  );
+                })}
               </InputBox>
 
               {!githubUser && (
