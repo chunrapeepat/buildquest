@@ -1,35 +1,15 @@
-# BuildQuest (PoC)
-![ETHTalk Cover](https://bafybeicy5tjxjqsfc5tddiszrjsv6fijnsg377kyoqtlttmcfogxd2n4eq.ipfs.infura-ipfs.io/)
-EthTalk is a comments widget implemented and designed for the Ethereum ecosystem built on top of [🏗 Scaffold-ETH](https://github.com/austintgriffith/scaffold-eth), lets visitors leave comments on your website with their non-custodial Ethereum account
+# BuildQuest
+> L2 Rollation Hackathon Submission: Boba Network Bounty 
 
-> Try it yourself: https://ethtalk.app, Demo video: https://www.youtube.com/watch?v=ikJnxQJaxJA
+![BuildQuest](https://i.ibb.co/xS2SFrt/Clean-Shot-2565-05-23-at-03-45-29-2x.png)
+BuildQuest is a grants and bounties platform for Web3 builders. In this alpha version, we've built a bounty disbursement automation tool that automatically pays out when the contributor's PR gets merged.
 
-### Why ETHTalk?
-Basically, for commenting on any website, you need to have a Facebook or Google accounts, or sometimes you need to register a new account with a new username/password which may have a few problems:
+> Try it yourself: https://buildquest.xyz, Follow Our Twitter: [@buildquestxyz](https://twitter.com/buildquestxyz)
 
-1. All the un/pw is controlled by Google, Facebook, or some others and your security hugely depends on them.
-2. Most people still have weak passwords, so hackers can still brute-force and gain the access to the accounts.
-
-Would it be better if everyone could have a private key (PK) and use that PK to sign in to a lot of services which is way more secure than the password? The good news is, that has now happened with the power of Ethereum and you can now start using your ETH account to sign in and comment on any website that embedded an ETHTalk's widget (and for a username system you can register your username on the ENS domain which basically is an NFT for your profile and you have full control over it)
-
-I strongly believe that we would see a huge adoption about these ENS and Ethereum Single Sign-on concepts in the near future (maybe about 1-3 years from now) and this project is the one that leveraged those ideas and bring them into action, and to make that adoption happen, I'll start using it on my personal website first 😎
+### Why BuildQuest?
 
 ### Features
-- Open source 🌍
-- ENS (Ethereum Name Service) supported 😎
-- Sign-in with your non-custodial Ethereum accounts (No Facebook, Google, or Twitter accounts needed 🙅‍♀️)
-- 🦊 MetaMask and 🔥 [BurnerWallet](https://www.xdaichain.com/for-users/wallets/burner-wallet) supported
-- LaTex supported for commenting 🧮
-- All the data is stored on Firebase Firestore 💽
-
-### More fun ideas (feel free to contribute)
-- Add verify badge for who have done Proof of Humanity
-- Buy me a beer, send 🍺 (1x🍺 = 0.001 ETH) directly within a comment for patronizing the author
-- Use your NFTs as a sticker
-- Fully customize theme (with dark mode supported 🌝)
-
-
-## Contribution
+## Technology
 ### How it works?
 1. User connect their wallet to give a public address to the site
 2. Frontend send that public address to get a challenge code (nonce) from the backend
@@ -64,8 +44,10 @@ yarn react-app:start
 7. Experiment and develop your AWESOME 😎 features
 
 ### Tech stack
-- Frontend: Firebase, React, Antd, [scaffold-eth/serverless-auth](https://github.com/austintgriffith/scaffold-eth/tree/serverless-auth) template
-- Backend: Firebase Cloud Functions, Firestore, Firebase Custom Authentication
+- Frontend: Firebase, React, 
+- Backend: Firebase Cloud Functions, Firestore, Firebase Github Authentication
+
+### What I learn from this project 
 
 ---
 

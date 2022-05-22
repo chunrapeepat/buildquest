@@ -82,7 +82,7 @@ const BountyExplorer = () => {
 
   useEffect(() => {
     const bountiesCollectionRef = collection(firestore, "bounties");
-    const q = query(bountiesCollectionRef, orderBy("createdAt", "asc"));
+    const q = query(bountiesCollectionRef, orderBy("createdAt", "desc"));
 
     onSnapshot(q, snapshot => {
       setBounties(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));

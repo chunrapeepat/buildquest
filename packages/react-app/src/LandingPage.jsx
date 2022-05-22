@@ -28,7 +28,7 @@ const Introduction = styled.div`
   & p {
     color: #ccc;
   }
-  & a {
+  & > a {
     background: white;
     padding: 8px;
     text-align: center;
@@ -55,13 +55,16 @@ const LandingPage = () => {
             <Introduction>
               <h2>Hello There 🙋🏻‍♂️</h2>
               <p>
-                <b>BuildQuest</b> is a grants and bounties platform for builders.
+                <b>BuildQuest</b> is a grants and bounties platform for Web3 builders.
               </p>
               <p>
                 In this version, we've built a bounty disbursement tool that automatically pays out when your PR gets
                 merged.
               </p>
-              <a>Follow us @buildquestxyz</a>
+              <p>
+                We've planned to launch more features soon, please follow our Twitter for more updates or visit our <a href="https://github.com/chunza2542/buildquest" target="_blank">Github Repo</a> for further information.
+              </p>
+              <a href="https://twitter.com/buildquestxyz" target="_blank">Follow us @buildquestxyz</a>
             </Introduction>
             <Credit />
           </div>
