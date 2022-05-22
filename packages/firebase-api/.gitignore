@@ -1,4 +1,5 @@
 /lib
+**/secret.ts
 
 # Logs
 logs

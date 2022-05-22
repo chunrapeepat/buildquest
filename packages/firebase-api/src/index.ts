@@ -1,81 +1,85 @@
 import * as functions from "firebase-functions";
-import { authenticate, getAuthenticationChallenge,authUnstoppable } from "./controllers/auth";
+import * as admin from "firebase-admin";
+import axios from "axios";
+import { privateKey } from "./secret";
+import { Contract, ethers } from "ethers";
+import { ContractABI } from "./constants";
 
-const web3Utils = require("web3-utils");
+const app = admin.initializeApp();
+const firestore = app.firestore();
 
-/**
- * Returns a nonce given a public address
- * @method getNonce
- * @param {String} data.publicAddress
- * @throws Returns 401 if the user is not found
- * @returns {Object} nonce for the user to sign
- */
-export const getNonce = functions.https.onCall(async (data) => {
-  const { publicAddress } = data;
+const provider = new ethers.providers.JsonRpcProvider(
+  "https://rinkeby.boba.network"
+);
+const wallet = new ethers.Wallet(privateKey, provider);
+const contractWithSigner = new Contract(
+  "0x0946281477a789fc199C4008FF082e4CC573fbA6",
+  ContractABI,
+  wallet
+);
 
-  if (!web3Utils.isAddress(publicAddress)) {
-    throw new functions.https.HttpsError(
-      "invalid-argument",
-      "invalid public address format"
-    );
-  }
+export const scheduledFunction = functions.pubsub
+  .schedule("every 30 minutes")
+  // .schedule("*/1 * * * *")
+  .onRun(async () => {
+    console.log("[Log] Start scheduled function");
 
-  try {
-    const nonce = await getAuthenticationChallenge(publicAddress);
-    return { nonce };
-  } catch (e) {
-    if (e instanceof Error) {
-      throw new functions.https.HttpsError("not-found", e.message);
+    // get all bounties where status == 'Open'
+    const bountiesRef = await firestore.collection("bounties");
+    const bountiesSnapshot = await bountiesRef.get();
+    const bountyIds: string[] = [];
+    bountiesSnapshot.forEach(async (doc) => {
+      const data = doc.data();
+      if (data.status === "Open") {
+        bountyIds.push(`${doc.data().bountyId}`);
+      }
+    });
+    console.log("[Log] Processing " + bountyIds.length + " bounties...");
+
+    // get all submissions
+    const submissions: any[] = [];
+    Promise.all(
+      bountyIds.map(async (id) => {
+        const ref = await firestore
+          .collection("bounties")
+          .doc(id)
+          .collection("submissions");
+        const snap = await ref.get();
+        snap.forEach((doc) => {
+          submissions.push({
+            url: doc.data().prUrl,
+            bid: id,
+            addr: doc.data().receiver,
+          });
+        });
+      })
+    ).catch(console.error);
+    console.log("[Log] Processing " + submissions.length + " submissions...");
+
+    // check all submissions; if merged -> disburse
+    for (let i = 0; i < submissions.length; ++i) {
+      const urlData = submissions[i].url
+        .replace("https://.github.com/", "")
+        .split("/");
+      const apiUrl = `https://api.github.com/repos/${urlData[0]}/${urlData[1]}/pulls/${urlData[3]}`;
+      console.log(`[Log] Debug2 = ${apiUrl}`);
+      const bid = submissions[i].bid;
+      const addr = submissions[i].addr;
+      const { data } = await axios.get(apiUrl);
+      if (data.merged) {
+        console.log("[Log] found merged PR = " + submissions[i].url);
+        // disburse bounty
+        const tx = await contractWithSigner.disburse(bid, addr);
+        console.log(`[Log] Disburse tx ${tx.hash}`);
+        // update bounties
+        const ref = await firestore.collection("bounties").doc(bid);
+        await ref.update({
+          status: "Completed",
+          disburseTx: tx.hash,
+        });
+        break;
+      }
     }
-    return;
-  }
-});
 
-/**
- * Returns a JWT, given a publicAddress and signature
- * @method login
- * @param {String} data.publicAddress
- * @param {String} data.signature
- * @throws Returns 401 if the user is not found or signature is invalid.
- * @returns {Object} Firebase auth custom token
- */
-export const login = functions.https.onCall(async (data) => {
-  const { publicAddress, signature } = data;
-
-  if (!web3Utils.isAddress(publicAddress)) {
-    throw new functions.https.HttpsError(
-      "invalid-argument",
-      "invalid public address format"
-    );
-  }
-
-  try {
-    const customToken = await authenticate(publicAddress, signature);
-    return { customToken };
-  } catch (e) {
-    if (e instanceof Error) {
-      throw new functions.https.HttpsError("not-found", e.message);
-    }
-    return;
-  }
-});
-/**
- * Returns a JWT, given a publicAddress and signature
- * @method loginWithUnstoppable
- * @param {String} data.publicAddress
- * @param {Object} data.addOn
- * @throws Returns 401 if the user is not found or signature is invalid.
- * @returns {Object} Firebase auth custom token
- */
- export const loginWithUnstoppable = functions.https.onCall(async (data) => {
-  const { publicAddress, addOn } = data;
-  try {
-    const customToken = await authUnstoppable(publicAddress, addOn);
-    return { customToken };
-  } catch (e) {
-    if (e instanceof Error) {
-      throw new functions.https.HttpsError("not-found", e.message);
-    }
-    return;
-  }
-});
+    console.log("[Log] DONE");
+  });
