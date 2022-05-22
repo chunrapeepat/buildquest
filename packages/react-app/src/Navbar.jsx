@@ -5,7 +5,7 @@ import { useAccount } from "wagmi";
 import { PlusOutlined } from "@ant-design/icons";
 
 const Container = styled.div`
-  width: 1000px;
+  width: 1050px;
   margin: 0 auto;
 `;
 const Header = styled.div`

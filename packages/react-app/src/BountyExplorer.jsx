@@ -67,7 +67,6 @@ const Bounty = styled.a`
         margin-right: 8px;
       }
       & > div:nth-child(2) {
-        background: #3aab3e;
         color: white;
         padding: 3px 7px;
         font-weight: 600;
@@ -112,13 +111,21 @@ const BountyExplorer = () => {
                   <div>
                     <Address address={bounty.createdBy} />
                   </div>
-                  <div>Ends in 20 hours</div>
+                  <div>End at {new Date(bounty.expiredAt).toLocaleString()}</div>
                 </div>
                 <div>
                   <div>
                     {bounty.amount} {bounty.deno}
                   </div>
-                  <div>{bounty.status}</div>
+                  {bounty.status === 'Open' &&
+                    <div style={{background: '#3aab3e'}}>{bounty.status}</div>
+                  }
+                  {bounty.status === 'Complete' &&
+                    <div style={{background: '#4839ab'}}>{bounty.status}</div>
+                  }
+                  {bounty.status === 'Close' &&
+                    <div style={{background: '#fa423c'}}>{bounty.status}</div>
+                  }
                 </div>
               </div>
             </Bounty>

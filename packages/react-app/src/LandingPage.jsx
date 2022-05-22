@@ -6,7 +6,7 @@ import Credit from "./Credit";
 import Navbar from "./Navbar";
 
 const Container = styled.div`
-  width: 1000px;
+  width: 1050px;
   margin: 0 auto;
 `;
 const ContentContainer = styled.div`
