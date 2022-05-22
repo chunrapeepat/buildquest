@@ -1,4 +1,4 @@
-import Icon from "@ant-design/icons";
+import Icon, { ArrowLeftOutlined } from "@ant-design/icons";
 import { ethers } from "ethers";
 import { doc, setDoc } from "firebase/firestore";
 import axios from "axios";
@@ -8,6 +8,7 @@ import { useContract, useProvider, useSigner } from "wagmi";
 import { BUILDQUEST_CONTRACT_ABI } from "./constants";
 import Navbar from "./Navbar";
 import { firestore } from "./utils/firebase";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 650px;
@@ -148,9 +149,8 @@ const Button = styled.button`
 const CreateBountyPage = () => {
   const [issueURL, setIssueURL] = useState("");
   const [desc, setDesc] = useState("");
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(0.1);
   const [expiredAt, setExpiredAt] = useState(null);
-  const provider = useProvider();
   const { data: signer, isError, isLoading } = useSigner();
   const contract = useContract({
     addressOrName: "0x0946281477a789fc199C4008FF082e4CC573fbA6",
@@ -198,6 +198,9 @@ const CreateBountyPage = () => {
     <>
       <Navbar />
       <Container>
+        <Link to="/">
+          <ArrowLeftOutlined/> Back to homepage
+        </Link>
         <ContentContainer>
           <div>
             <h2>
@@ -268,8 +271,8 @@ const CreateBountyPage = () => {
                 <h2>TOTAL</h2>
               </div>
               <div>
-                <h1>5,000 ETH</h1>
-                <p>Bounty 5,000 ETH (~10,000$) + 0$ BuildQuest Platform Fee</p>
+                <h1>{amount} ETH</h1>
+                <p>Bounty {amount} ETH + 0$ BuildQuest Platform Fee</p>
               </div>
             </Summary>
           </InputBox>
