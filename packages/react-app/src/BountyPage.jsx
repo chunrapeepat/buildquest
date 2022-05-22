@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -9,9 +9,11 @@ import { signInWithPopup } from "firebase/auth";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import ReactMarkdown from "react-markdown";
 import { Address } from "./components";
+import { useAccount, useContract, useSigner } from "wagmi";
+import { BUILDQUEST_CONTRACT_ABI } from "./constants";
 
 const Container = styled.div`
-  width: 650px;
+  width: 750px;
   margin: 0 auto;
 `;
 const ContentContainer = styled.div`
@@ -104,6 +106,13 @@ const BountyPage = () => {
   const [info, setInfo] = useState(null);
   const [githubUser, setGithubUser] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { data: dataAccount } = useAccount();
+  const { data: signer, isError, isLoading } = useSigner();
+  const contract = useContract({
+    addressOrName: "0x0946281477a789fc199C4008FF082e4CC573fbA6",
+    contractInterface: BUILDQUEST_CONTRACT_ABI,
+    signerOrProvider: signer,
+  });
 
   const [prUrl, setPrUrl] = useState("");
   const [receiver, setReceiver] = useState("0x68fc885719aC82B744E859b7843A155C5bB4C1a5");
@@ -150,6 +159,16 @@ const BountyPage = () => {
     setIsSubmitted(true);
   };
 
+  const cancelBounty = async () => {
+    if (info === null) return;
+    const result = await contract.closeBounty(info.bountyId);
+    console.log({ result });
+    const bountyRef = doc(firestore, "bounties", `${info.bountyId}`);
+    await updateDoc(bountyRef, {
+      status: "Close",
+    });
+  };
+
   return (
     <>
       <Navbar />
@@ -187,6 +206,11 @@ const BountyPage = () => {
               </div>
               <InputBox>
                 <ReactMarkdown>{info.body}</ReactMarkdown>
+                {dataAccount?.address === info.createdBy && (
+                  <Button onClick={cancelBounty} style={{ padding: "4px 8px", background: "#fa433c" }}>
+                    Cancel Bounty
+                  </Button>
+                )}
               </InputBox>
               <InputBox>
                 <h3>Submissions (1)</h3>
