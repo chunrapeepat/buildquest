@@ -7,9 +7,16 @@ BuildQuest is a grants and bounties platform for Web3 builders. In this alpha ve
 > Try it yourself: https://buildquest.xyz, Follow Our Twitter: [@buildquestxyz](https://twitter.com/buildquestxyz)
 
 ### Why BuildQuest?
-I started this project with a personal belief that "developers will product 10x quality works if they work on the thing they love". I think the future of work should be more like doing side projects where you doing what means to you and getting earned while maintaining full ownership.
+I started this project with a personal belief that "developers will produce 10x quality works if they work on the thing they love". I think the future of work should be more like doing side projects where you doing what you consider meaningful and getting earned while maintaining full ownership.
 
-### Roadmap & Future Development
+In the past years, we started to see this kind of work are getting more and more popular, we started to see developers shift to Web3, we started to see more full-time indie hackers and open-source contributors, and the numbers keep going.
+
+That's why I wanted to build & experiment around grants & bounties tooling that helps support this kind of builder to build and iterate ideas much more efficiently.
+
+We also planned to ship more features soon (see the Roadmap section below), and we want to continue building this project until we reach the point that "our product can support builders to earn enough for a decent living by contributing to the project they love".
+
+### Roadmap & future development?
+
 ## Technology
 ### How it works?
 ![How it works](https://i.ibb.co/LnfxHn5/Clean-Shot-2565-05-23-at-04-19-53-2x.png)
