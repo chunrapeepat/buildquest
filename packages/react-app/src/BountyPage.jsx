@@ -7,8 +7,9 @@ import styled from "styled-components";
 import { useContract, useProvider, useSigner } from "wagmi";
 import { BUILDQUEST_CONTRACT_ABI } from "./constants";
 import Navbar from "./Navbar";
-import { firestore } from "./utils/firebase";
+import { auth, firestore, githubProvider } from "./utils/firebase";
 import { useParams } from "react-router-dom";
+import { signInWithPopup } from "firebase/auth";
 
 const Container = styled.div`
   width: 650px;
@@ -149,6 +150,10 @@ const Button = styled.button`
 const BountyPage = () => {
   const { id: bountyId } = useParams();
   const [info, setInfo] = useState(null);
+  const [githubUser, setGithubUser] = useState(null);
+
+  const [prUrl, setPrUrl] = useState("");
+  const [receiver, setReceiver] = useState("0x68fc885719aC82B744E859b7843A155C5bB4C1a5");
 
   useEffect(async () => {
     const docRef = doc(firestore, "bounties", bountyId);
@@ -163,6 +168,33 @@ const BountyPage = () => {
       setInfo({ ...bountyInfo, body: issueData.body });
     }
   }, []);
+
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      setGithubUser(user);
+    }
+  });
+
+  const connectWithGithub = async () => {
+    await signInWithPopup(auth, githubProvider);
+  };
+
+  const handleSubmitPR = async () => {
+    if (prUrl == "" || receiver == "" || githubUser == "") return;
+    const githubUsername = githubUser.reloadUserInfo.screenName;
+    const data = {
+      githubUsername,
+      prUrl,
+      receiver,
+    };
+    console.log({ data });
+    const submissionRef = doc(firestore, "bounties", `${bountyId}`, "submissions", githubUsername);
+    await setDoc(submissionRef, {
+      ...data,
+      createdAt: new Date(),
+    });
+    console.log("DONE");
+  };
 
   if (info === null) {
     return <h3>Loading...</h3>;
@@ -182,7 +214,34 @@ const BountyPage = () => {
           <InputBox>
             <h3>{info.body}</h3>
           </InputBox>
+          <InputBox>
+            <h3>Submissions (1)</h3>
+          </InputBox>
         </ContentContainer>
+
+        {!githubUser && <button onClick={connectWithGithub}>Connect with Github Account</button>}
+        {githubUser && (
+          <InputBox>
+            <h3>Submit Your PR!</h3>
+            <p>Your PR must be in the same repo and created by you.</p>
+            <div>
+              <label>PR Url:</label>
+              <Input
+                onChange={e => setPrUrl(e.target.value)}
+                value={prUrl}
+                type="text"
+                placeholder="https://github.com/orgs/repo/issues/n"
+              ></Input>
+            </div>
+            <div>
+              <label>Wallet Address:</label>
+              <Input onChange={e => setReceiver(e.target.value)} value={receiver} type="text"></Input>
+            </div>
+            <Button onClick={handleSubmitPR} style={{ marginTop: 16 }}>
+              Submit PR
+            </Button>
+          </InputBox>
+        )}
 
         <br />
         <br />

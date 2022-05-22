@@ -1,9 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
+import { getAuth, GithubAuthProvider } from "firebase/auth";
+import { getFunctions } from "firebase/functions";
 import { getFirestore } from "firebase/firestore";
-import { connectAuthEmulator } from "@firebase/auth";
-import { connectFirestoreEmulator } from "@firebase/firestore";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -42,6 +40,9 @@ Object.defineProperty(window, "localStorage", {
 Object.defineProperty(window, "sessionStorage", {
   value: mockStorage,
 });
+
+// Github authen provider
+export const githubProvider = new GithubAuthProvider();
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
