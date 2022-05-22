@@ -171,6 +171,7 @@ const CreateBountyPage = () => {
     const title = issueData.title;
     const chain = "boba-testnet";
     const deno = "ETH";
+    const status = "Open";
     const createdBy = result.from;
     const txHash = result.hash;
     const data = {
@@ -182,6 +183,7 @@ const CreateBountyPage = () => {
       amount,
       deno,
       txHash,
+      status,
       expiredAt,
       createdBy,
     };

@@ -1,3 +1,5 @@
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { useState } from "react";
 import styled from "styled-components";
 import BountyExplorer from "./BountyExplorer";
 import Credit from "./Credit";

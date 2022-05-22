@@ -1,5 +1,9 @@
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Address } from "./components";
+import { firestore } from "./utils/firebase";
 
 const Container = styled.div`
   margin-bottom: 64px;
@@ -74,129 +78,53 @@ const Bounty = styled.a`
 `;
 
 const BountyExplorer = () => {
+  const [bounties, setBounties] = useState([]);
+
+  useEffect(() => {
+    const bountiesCollectionRef = collection(firestore, "bounties");
+    const q = query(bountiesCollectionRef, orderBy("createdAt", "asc"));
+
+    onSnapshot(q, snapshot => {
+      setBounties(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    });
+  }, []);
+
   return (
     <Container>
       <Head>
         <h2>
           <b>Bounty Explorer</b>
         </h2>
-        <p>23 bounties</p>
+        <p>{bounties.length} bounties</p>
       </Head>
-      <Bounty>
-        <h3>Create A Superfluid And AddressBook Ceramic Datamodel Integration</h3>
-        <p>
-          Integrate the Ceramic addressBook datamodel into Superfluid. The most useful place for this integration is
-          within the Superfluid Console itself.
-        </p>
-        <div>
-          <div>
-            <div>
-              <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/14556.png" />
-              Boba Network
-            </div>
-            <div>
-              <Address address={"0x79A375feFbF90878502eADBA4A89697896B60c4d"} />
-            </div>
-            <div>Ends in 20 hours</div>
-          </div>
-          <div>
-            <div>2000 BOBA</div>
-            <div>Open</div>
-          </div>
-        </div>
-      </Bounty>
-      <Bounty>
-        <h3>Create A Superfluid And AddressBook Ceramic Datamodel Integration</h3>
-        <p>
-          Integrate the Ceramic addressBook datamodel into Superfluid. The most useful place for this integration is
-          within the Superfluid Console itself.
-        </p>
-        <div>
-          <div>
-            <div>
-              <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/14556.png" />
-              Boba Network
-            </div>
-            <div>
-              <Address address={"0x79A375feFbF90878502eADBA4A89697896B60c4d"} />
-            </div>
-            <div>Ends in 20 hours</div>
-          </div>
-          <div>
-            <div>2000 BOBA</div>
-            <div>Open</div>
-          </div>
-        </div>
-      </Bounty>
-      <Bounty>
-        <h3>Create A Superfluid And AddressBook Ceramic Datamodel Integration</h3>
-        <p>
-          Integrate the Ceramic addressBook datamodel into Superfluid. The most useful place for this integration is
-          within the Superfluid Console itself.
-        </p>
-        <div>
-          <div>
-            <div>
-              <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/14556.png" />
-              Boba Network
-            </div>
-            <div>
-              <Address address={"0x79A375feFbF90878502eADBA4A89697896B60c4d"} />
-            </div>
-            <div>Ends in 20 hours</div>
-          </div>
-          <div>
-            <div>2000 BOBA</div>
-            <div>Open</div>
-          </div>
-        </div>
-      </Bounty>
-      <Bounty>
-        <h3>Create A Superfluid And AddressBook Ceramic Datamodel Integration</h3>
-        <p>
-          Integrate the Ceramic addressBook datamodel into Superfluid. The most useful place for this integration is
-          within the Superfluid Console itself.
-        </p>
-        <div>
-          <div>
-            <div>
-              <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/14556.png" />
-              Boba Network
-            </div>
-            <div>
-              <Address address={"0x79A375feFbF90878502eADBA4A89697896B60c4d"} />
-            </div>
-            <div>Ends in 20 hours</div>
-          </div>
-          <div>
-            <div>2000 BOBA</div>
-            <div>Open</div>
-          </div>
-        </div>
-      </Bounty>
-      <Bounty>
-        <h3>Create A Superfluid And AddressBook Ceramic Datamodel Integration</h3>
-        <p>
-          Integrate the Ceramic addressBook datamodel into Superfluid. The most useful place for this integration is
-          within the Superfluid Console itself.
-        </p>
-        <div>
-          <div>
-            <div>
-              <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/14556.png" />
-              Boba Network
-            </div>
-            <div>
-              <Address address={"0x79A375feFbF90878502eADBA4A89697896B60c4d"} />
-            </div>
-            <div>Ends in 20 hours</div>
-          </div>
-          <div>
-            <div>2000 BOBA</div>
-            <div>Open</div>
-          </div>
-        </div>
-      </Bounty>
+      {bounties.map(bounty => {
+        return (
+          <Link to={`/bounty/${bounty.bountyId}`}>
+            <Bounty key={`bounty_${bounty.bountyId}`}>
+              <h3>{bounty.title}</h3>
+              <p>{bounty.desc}</p>
+              <div>
+                <div>
+                  <div>
+                    <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/14556.png" />
+                    Boba Testnet
+                  </div>
+                  <div>
+                    <Address address={bounty.createdBy} />
+                  </div>
+                  <div>Ends in 20 hours</div>
+                </div>
+                <div>
+                  <div>
+                    {bounty.amount} {bounty.deno}
+                  </div>
+                  <div>{bounty.status}</div>
+                </div>
+              </div>
+            </Bounty>
+          </Link>
+        );
+      })}
     </Container>
   );
 };
