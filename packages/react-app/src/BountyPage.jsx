@@ -235,6 +235,7 @@ const BountyPage = () => {
               </InputBox>
               <InputBox>
                 <h3>Submissions ({submissions.length})</h3>
+                {info.disburseTx && <Submission>Disburse Tx Hash: {info.disburseTx}</Submission>}
                 {submissions.map(s => {
                   return (
                     <Submission>
