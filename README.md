@@ -13,7 +13,7 @@ In the past years, we started to see this kind of work are getting more and more
 
 That's why I wanted to build & experiment around grants & bounties tooling that helps support this kind of builder to build and iterate ideas much more efficiently.
 
-I also planned to ship more features soon (see the Roadmap section below), and I want to continue building this project until we reach the point that "our product can support builders to earn enough for a decent living by contributing to the project they love".
+I also planned to ship more features soon (see the Roadmap section below), and I want to continue building this project until we reach the point that "our product can support builders to earn money by contributing to the project they love".
 
 ### Roadmap & future development
 There are 2 aspects that we would like to focus on to achieve our mission.
@@ -53,7 +53,7 @@ yarn react-app:start
 - Blockchain: Truffle, Solidity
 
 ### What I learn from this hackathon 
-This is my first time writing a smart contract in Solidity and using Truffle for deployment. I started this project 2 days before the submission deadline so it is quite challenging here but It's really enjoyable to learn.
+This is my first time writing a smart contract in Solidity and using Truffle for deployment. Love it!
 
 ---
 
