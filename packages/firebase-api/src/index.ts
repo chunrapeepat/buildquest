@@ -19,8 +19,7 @@ const contractWithSigner = new Contract(
 );
 
 export const scheduledFunction = functions.pubsub
-  .schedule("every 30 minutes")
-  // .schedule("*/1 * * * *")
+  .schedule("*/1 * * * *")
   .onRun(async () => {
     console.log("[Log] Start scheduled function");
 
@@ -38,30 +37,27 @@ export const scheduledFunction = functions.pubsub
 
     // get all submissions
     const submissions: any[] = [];
-    Promise.all(
-      bountyIds.map(async (id) => {
-        const ref = await firestore
-          .collection("bounties")
-          .doc(id)
-          .collection("submissions");
-        const snap = await ref.get();
-        snap.forEach((doc) => {
-          submissions.push({
-            url: doc.data().prUrl,
-            bid: id,
-            addr: doc.data().receiver,
-          });
+    for (let i = 0; i < bountyIds.length; ++i) {
+      const id = bountyIds[i];
+      const ref = await firestore
+        .collection("bounties")
+        .doc(id)
+        .collection("submissions");
+      const snap = await ref.get();
+      snap.forEach((doc) => {
+        submissions.push({
+          url: doc.data().prUrl,
+          bid: id,
+          addr: doc.data().receiver,
         });
-      })
-    ).catch(console.error);
+      });
+    }
     console.log("[Log] Processing " + submissions.length + " submissions...");
 
     // check all submissions; if merged -> disburse
     for (let i = 0; i < submissions.length; ++i) {
-      const urlData = submissions[i].url
-        .replace("https://.github.com/", "")
-        .split("/");
-      const apiUrl = `https://api.github.com/repos/${urlData[0]}/${urlData[1]}/pulls/${urlData[3]}`;
+      const urlData = submissions[i].url.split("/");
+      const apiUrl = `https://api.github.com/repos/${urlData[3]}/${urlData[4]}/pulls/${urlData[6]}`;
       console.log(`[Log] Debug2 = ${apiUrl}`);
       const bid = submissions[i].bid;
       const addr = submissions[i].addr;
@@ -74,7 +70,7 @@ export const scheduledFunction = functions.pubsub
         // update bounties
         const ref = await firestore.collection("bounties").doc(bid);
         await ref.update({
-          status: "Completed",
+          status: "Complete",
           disburseTx: tx.hash,
         });
         break;
