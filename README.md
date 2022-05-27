@@ -61,4 +61,4 @@ This is my first time writing a smart contract in Solidity and using Truffle for
 
 ---
 
-Crafted with 🧡 by [@chunza2542](https://twitter.com/chunza2542)
+Crafted with 🧡 by [@chunza2542](https://twitter.com/chunza2542).
