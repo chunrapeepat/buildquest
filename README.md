@@ -9,20 +9,24 @@ BuildQuest is a grants and bounties platform for Web3 builders. In this alpha ve
 ### Why BuildQuest?
 I started this project with a personal belief that "developers will produce 10x quality works if they work on the thing they love". I think the future of work should be more like doing side projects where you doing what you consider meaningful and getting earned while maintaining full ownership.
 
-In the past years, we started to see this kind of work are getting more and more popular, we started to see developers shift to Web3, we started to see more full-time indie hackers and open-source contributors, and the numbers keep going.
+In the past years, we started to see this kind of work are getting more and more popular, we started to see developers shift to Web3, we started to see more full-time indie hackers, bounty hunters, and open-source contributors, and the numbers keep going.
 
-That's why I wanted to build & experiment around grants & bounties tooling that helps support this kind of builder to build and iterate ideas much more efficiently.
+That's why I wanted to build & experiment around grants & bounties tooling that helps support this kind of builder to build and iterate ideas much more faster and more efficiently.
 
-I also planned to ship more features soon (see the Roadmap section below), and I want to continue building this project until we reach the point that "our product can support builders to earn money by contributing to the project they love".
+I also planned to ship more features soon (see the Roadmap section below), and I want to continue building until we reach our mission that "our product can support builders to earn money by contributing to the project they love".
 
 ### Roadmap & future development
 There are 2 aspects that we would like to focus on to achieve our mission.
 
-**1. Grant/Bounty as a service (GBaaS) for Web3 protocols** - Buliding tooling that helps Web3 protocols manage grants and bounties much more efficiently e.g. Analytics Tooling, Developer Management, Grant application management, Disbursement Tooling, etc...
-  - How boba can help us reach our mission: provide support for developing an MVP, and collaborate and partner together to build the best grant and bounty tooling.
+**1. Grant/Bounty as a service (GBaaS) for Web3 protocols** - Building tools that help Web3 protocols manage grants and bounties much more efficiently and improve the user experience for builders.
+  - Features: Grant Analytics Dashboard, Developer Relationship Management, Application Management, Report, Disbursement Tooling, Onboarding Process for upcoming Web3 protocols, etc...
+  - How boba can help us reach our mission: provide support for developing an MVP, collaborate and partner together to bring the best user experience for builders and Web3 protocols.
 
-**2. Community-based platform** - A place where builders share ideas, get inspired, and collaborate together (You can think of Linkedin for Web3 builders)
+**2. Community-based platform** - Focusing on builders community. (think of Linkedin for Web3 builders)
+  - Features: builders reputation, social networking, discovery layer for BUIDL opportunities.
   - How boba can help us reach our mission: introduce our product to Boba ecosystem to bootstrap an initial network.
+
+**3. Web2** - Scaling our tooling to Web2 tech company since we think that there's some type of company and some type of work that is applicable with this model e.g. company that sells an API, a company that sells plugins/template, etc... 
 
 ## Technology
 ### How it works?
